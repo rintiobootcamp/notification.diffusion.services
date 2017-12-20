@@ -5,14 +5,7 @@
  */
 package com.bootcamp.Classes;
 
-import com.bootcamp.commons.models.Criteria;
-import com.bootcamp.commons.models.Criterias;
-import com.bootcamp.crud.NotificationCRUD;
-import com.bootcamp.entities.Notification;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
-import java.util.Timer;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -27,15 +20,15 @@ import javax.mail.internet.MimeMessage;
  */
 public class MailSender {
 
-    private static String USER_NAME = "bignonfebron";  // GMail user name (just the part before "@gmail.com")
-    private static String PASSWORD = "amuztadjitadjidation"; // GMail password
-    private static String[] RECIPIENT = {"mboabello@yahoo.fr", "chrishouns21@gmail.com", "contact@institute.rintio.com"};
-    private static String SUBJECT = "Notification de la plateforme PAG";
+    private static final String USER_NAME = "bignonfebron";  // GMail user name (just the part before "@gmail.com")
+    private static final String PASSWORD = "amuztadjitadjidation"; // GMail password
+    private static final String SUBJECT = "Notification de la plateforme PAG";
 
-    public static void sendFromGMail(String body) throws MessagingException {
+    public static void sendMail(String messageMail, String[] destinataires) throws MessagingException {
+        String body = messageMail;
         String from = USER_NAME;
         String pass = PASSWORD;
-        String[] to = RECIPIENT;
+        String[] to = destinataires;
         String subject = SUBJECT;
 
         System.setProperty("https.protocols", "TLSv1.1");
@@ -78,31 +71,31 @@ public class MailSender {
         }
     }
 
-    public static void sender(String boolcanal) throws MessagingException, SQLException {
-        Criterias criterias = new Criterias();
-        Criteria criteria = new Criteria(boolcanal, "=", false);
-        criterias.addCriteria(criteria);
-        List<Notification> notifications = NotificationCRUD.read(criterias);
-        for (Notification notification : notifications) {
-            if (boolcanal.equals("sendMail")) {
-                sendFromGMail(notification.getContenuMail());
-                notification.setSendMail(true);
-                NotificationCRUD.update(notification);
-            }
-
-            if (boolcanal.equals("sendSms")) {
-                sendFromGMail(notification.getContenuGsm());
-                notification.setSendSms(true);
-                NotificationCRUD.update(notification);
-            }
-
-        }
-    }
+//    public static void sender(String boolcanal) throws MessagingException, SQLException {
+//        Criterias criterias = new Criterias();
+//        Criteria criteria = new Criteria(boolcanal, "=", false);
+//        criterias.addCriteria(criteria);
+//        List<Notification> notifications = NotificationCRUD.read(criterias);
+//        for (Notification notification : notifications) {
+//            if (boolcanal.equals("sendMail")) {
+//                sendMail(notification.getContenuMail());
+//                notification.setSendMail(true);
+//                NotificationCRUD.update(notification);
+//            }
+//
+//            if (boolcanal.equals("sendSms")) {
+//                sendMail(notification.getContenuGsm());
+//                notification.setSendSms(true);
+//                NotificationCRUD.update(notification);
+//            }
+//
+//        }
+//    }
 
 //  public  void sender() throws MessagingException{
 //     List<String> mailMsgs = getMsgToSend("sendMail"); 
 //      for (String mailMsg : mailMsgs) {
-//         sendFromGMail(mailMsg); 
+//         sendMail(mailMsg); 
 //      }
 //  }
 }
