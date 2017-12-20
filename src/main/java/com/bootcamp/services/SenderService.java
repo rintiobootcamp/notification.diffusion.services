@@ -29,7 +29,7 @@ public class SenderService implements DatabaseConstants {
         for (UserWs user : users) {
             destinataires.add(user.getEmail());
         }
-        return (String[]) destinataires.toArray();
+        return destinataires.toArray(new String[0]);
     }
     
     private String getNumeroList(List<UserWs> users){
